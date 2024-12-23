@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Page</title>
+    <style>
+        @font-face {
+            font-family: 'Winter Minnie';
+            src: url('WinterMinnie.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Gaelle Number';
+            src: url('GaelleNumber2.ttf') format('truetype');
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+            background-image: url('porkmas.jpg'); /* Replace with your image filename */
+            background-repeat: repeat;
+            background-size: auto;
+            overflow: hidden;  /* Hide overflow to prevent scrollbars from appearing */
+            position: relative;  /* Needed for absolute positioning of snowflakes */
+        }
+
+        /* Dark shadow overlay */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2); /* 20% dark shadow */
+            z-index: -1; /* Behind the content */
+        }
+
+        h1 {
+            font-family: 'Winter Minnie', cursive;
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: white; /* Default to white */
+            animation: colorChange 3s infinite; /* 3s duration for smoother transition */
+        }
+       
+        img {
+            max-width: 400px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #countdown {
+            font-family: 'Gaelle Number', sans-serif;
+            font-size: 2em;
+            margin: 20px;
+            color: rgb(255, 255, 255);
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+        }
+
+        .pumpfun-logo {
+            max-width: 150px;
+            height: auto;
+            margin-top: 10px;
+        }
+
+        @keyframes colorChange {
+            0% { color: white; }
+            33% { color: green; }
+            66% { color: red; }
+            100% { color: white; }
+        }
+
+        /* Snowflake animation */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            width: 30px;
+            height: 30px;
+            background-image: url('snowflake.png'); /* Updated to snowflake.png */
+            background-size: cover;
+            opacity: 0.8;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateX(0) translateY(0);
+            }
+            100% {
+                transform: translateX(100px) translateY(100vh);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>$PORKMAS</h1>
+    <img src="porkmaslogo.png" alt="Porkmaslogo">
+    <div id="countdown">00:00:00</div>
+    
+    <!-- Link wrapping the Pumpfun logo -->
+    <a href="https://pump.fun" target="_blank">
+        <img src="pumpfunlogo.webp" alt="Pumpfunlogo" class="pumpfun-logo">
+    </a>
+
+    <script>
+        // Set the target date and time for the countdown
+        const targetDate = new Date("2024-12-24T19:00:00-06:00"); // 7 PM CST
+
+        function updateCountdown() {
+            const now = new Date();
+            const difference = targetDate - now;
+
+            if (difference <= 0) {
+                document.getElementById("countdown").textContent = "Porkmas Time!";
+                clearInterval(interval);
+                return;
+            }
+
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Update the countdown every second
+        const interval = setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Create snowflakes dynamically
+        function createSnowflakes(num) {
+            for (let i = 0; i < num; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                snowflake.style.left = `${Math.random() * 100}%`; // Random horizontal position
+                snowflake.style.animationDuration = `${Math.random() * 5 + 5}s`; // Random animation duration (5s to 10s)
+                snowflake.style.animationDelay = `${Math.random() * 5}s`; // Random delay before falling
+                snowflake.style.width = `${Math.random() * 20 + 20}px`; // Random width (20px to 40px)
+                snowflake.style.height = `${Math.random() * 20 + 20}px`; // Random height (20px to 40px)
+                document.body.appendChild(snowflake);
+            }
+        }
+
+        // Create 50 snowflakes
+        createSnowflakes(50);
+    </script>
+</body>
+</html>
