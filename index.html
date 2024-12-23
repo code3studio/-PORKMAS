@@ -68,12 +68,7 @@
             text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
         }
 
-        .pumpfun-logo {
-            max-width: 150px;
-            height: auto;
-            margin-top: 10px;
-        }
-
+  
         @keyframes colorChange {
             0% { color: white; }
             33% { color: green; }
@@ -103,38 +98,44 @@
         }
     </style>
 </head>
+<header>
+    <!-- Links for each logo in the header -->
+    <a href="https://pump.fun" target="_blank">
+        <img src="pumpfunlogo.webp" alt="Pumpfun Logo" style="width: 50px; height: 50px;">
+    </a>    
+    <a href="https://x.com/ChristmasJPork" target="_blank"><img src="icons8-twitterx.svg" alt="Twitter Logo"></a>
+    <a href="https://t.co/Ej4uaYQU6W" target="_blank"><img src="icons8-telegram.svg" alt="Telegram Logo"></a>
+</header>
 <body>
     <h1>$PORKMAS</h1>
     <img src="porkmaslogo.png" alt="Porkmaslogo">
-    <div id="countdown">00:00:00</div>
+    <div id="countdown">0:00:00:00</div>
     
-    <!-- Link wrapping the Pumpfun logo -->
-    <a href="https://pump.fun" target="_blank">
-        <img src="pumpfunlogo.webp" alt="Pumpfunlogo" class="pumpfun-logo">
-    </a>
-
     <script>
-        // Set the target date and time for the countdown
-        const targetDate = new Date("2024-12-24T19:00:00-06:00"); // 7 PM CST
-
+        // Set the target date and time for the countdown (8 PM EST on December 24, 2024)
+        const targetDate = new Date("2024-12-24T20:00:00-05:00"); // 8 PM EST
+    
         function updateCountdown() {
             const now = new Date();
             const difference = targetDate - now;
-
+    
             if (difference <= 0) {
                 document.getElementById("countdown").textContent = "Porkmas Time!";
                 clearInterval(interval);
                 return;
             }
-
-            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
+    
+            // Calculate the number of days
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24)); // Full days
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); // Remaining hours
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)); // Remaining minutes
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000); // Remaining seconds
+    
+            // Display the countdown with days included
             document.getElementById("countdown").textContent = 
-                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                `${days.toString().padStart(2, '0')}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
         }
-
+    
         // Update the countdown every second
         const interval = setInterval(updateCountdown, 1000);
         updateCountdown();
